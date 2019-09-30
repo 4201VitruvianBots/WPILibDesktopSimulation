@@ -7,6 +7,12 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.Button;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
@@ -39,4 +45,25 @@ public class OI {
   // Start the command when the button is released and let it run the command
   // until it is finished as determined by it's isFinished method.
   // button.whenReleased(new ExampleCommand());
+    Joystick controller = new Joystick(0);
+    Button[] controllerButtons = new Button[controller.getButtonCount()];
+
+    public OI() {
+        for(int i = 0; i < controllerButtons.length; i++) {
+            controllerButtons[i] = new JoystickButton(controller, i + 1);
+        }
+    }
+
+    public double getJoystickLeftY() {
+        return -controller.getRawAxis(1);
+    }
+
+    public double getJoystickRightY() {
+        return -controller.getRawAxis(5);
+    }
+
+    public void updateSmartDashboard() {
+        SmartDashboard.putNumber("Left Joystick Y", getJoystickLeftY());
+        SmartDashboard.putNumber("Right Joystick Y", getJoystickRightY());
+    }
 }
